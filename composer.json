@@ -1,0 +1,12 @@
+{
+    "name": "bolster/http",
+    "description": "Http wrapper",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Leko",
+            "email": "leko.noor@gmail.com"
+        }
+    ],
+    "require": {}
+}
