@@ -1,6 +1,6 @@
 <?php
 
-namespace Http\Parser;
+namespace Bolster\Http\Parser;
 
 class PlainParser implements ParserInterface
 {

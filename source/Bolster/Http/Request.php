@@ -1,6 +1,6 @@
 <?php
 
-namespace Http;
+namespace Bolster\Http;
 
 class Request
 {

@@ -1,5 +1,7 @@
 <?php
 
+namespace Bolster;
+
 class Http
 {
     protected $_request;
@@ -7,17 +9,17 @@ class Http
 
     public function __construct()
     {
-        $this->_request = new \Http\Request();
-        $this->_response = new \Http\Response();
+        $this->_request = new Http\Request();
+        $this->_response = new Http\Response();
     }
 
     /**
      * レスポンスのパーザをセットする
      * 
-     * @param \Http\Parser\ParserInterface $parser パーザのインスタンス
+     * @param Http\Parser\ParserInterface $parser パーザのインスタンス
      * @return void
      */
-    public function setParser(\Http\Parser\ParserInterface $parser)
+    public function setParser(Http\Parser\ParserInterface $parser)
     {
         $this->_response->setParser($parser);
     }

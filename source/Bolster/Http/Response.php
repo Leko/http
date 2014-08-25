@@ -1,6 +1,6 @@
 <?php
 
-namespace Http;
+namespace Bolster\Http;
 
 class Response
 {
@@ -13,13 +13,13 @@ class Response
     /**
      * コンストラクタ
      * 
-     * @param string          $response_text レスポンステキスト
-     * @param \Http\Parser\ParserInterface $parser        レスポンスのパーザー。省略するとPlainParser(そのままのテキストを文字列で返す)が適用されます
+     * @param string                 $response_text レスポンステキスト
+     * @param Parser\ParserInterface $parser        レスポンスのパーザー。省略するとPlainParser(そのままのテキストを文字列で返す)が適用されます
      */
-    public function __construct(\Http\Parser\ParserInterface $parser = null)
+    public function __construct(Parser\ParserInterface $parser = null)
     {
         if(is_null($parser)) {
-            $parser = new \Http\Parser\PlainParser();
+            $parser = new Parser\PlainParser();
         }
 
         $this->_parser = $parser;
@@ -28,10 +28,10 @@ class Response
     /**
      * レスポンスのパースするパーザをセットする
      * 
-     * @param \Http\Parser\ParserInterface $parser パーザのインスタンス
+     * @param Parser\ParserInterface $parser パーザのインスタンス
      * @return void
      */
-    public function setParser(\Http\Parser\ParserInterface $parser)
+    public function setParser(Parser\ParserInterface $parser)
     {
         $this->_parser = $parser;
     }
