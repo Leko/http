@@ -36,15 +36,43 @@ class Request
 
     // 送信オプションを指定
     // NOTE: http://www.php.net/manual/ja/context.http.php
-    protected static $_default_context_options = array(
+    protected $_options = array(
         'http' => array(
             'ignore_errors' => true,    // レスポンスコードが40x系でもレスポンスを取得する
         )
     );
 
-    protected static $_default_headers = array(
+    protected $_headers = array(
         'Content-Type' => 'application/x-www-form-urlencoded',
     );
+
+    /**
+     * 送信するHTTPヘッダをセットする
+     * 
+     * 既に同じキー名のヘッダが存在する場合は上書きするので注意
+     * 
+     * @param string $key   ヘッダのキー名
+     * @param string $value ヘッダに設定する値
+     * @return void
+     */
+    public function setHeaders($key, $value)
+    {
+        $this->_headers[$key] = $value;
+    }
+
+    /**
+     * 送信時に生成するHTTPストリームコンテキストの設定をセットする
+     * 
+     * 既に同じキー名の設定が存在する場合は上書きするので注意
+     * 
+     * @param string $key   ヘッダのキー名
+     * @param string $value ヘッダに設定する値
+     * @return void
+     */
+    public function setHttpContextOptions($key, $value)
+    {
+        $this->_options['http'][$key] = $value;
+    }
 
     /**
      * HTTP通信を行う
@@ -52,26 +80,21 @@ class Request
      * @param string $method  使用するHTTPメソッド
      * @param string $url     送信するURL
      * @param array  $params  送信するパラメータ。省略すると空配列
-     * @param array  $headers 送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキスト。stream_context_createで生成できるコンテキストを指定。省略するとデフォルト設定で送信を行う
      */
-    public function send($method, $url, array $params = array(), array $headers = array(), $context_options = array())
+    public function send($method, $url, array $params = array())
     {
-        // デフォルトのヘッダと与えられたヘッダをマージ
-        $headers = array_merge_recursive(self::$_default_headers, $headers);
-
         // key => value形式のヘッダからkey: value形式の文字列の配列へ変換
         $header = array();
-        foreach ($headers as $key => $value) {
+        foreach ($this->_headers as $key => $value) {
             $header[] = "{$key}: {$value}";
         }
 
-        $context_options = array_merge_recursive(array(
+        $context_options = array_replace_recursive(array(
             'http' => array(
                 'method' => $method,
                 'header' => implode("\r\n", $header),
             ),
-        ), $context_options);
+        ), $this->_options);
 
         // コンテキストを生成し送信
         $context       = stream_context_create($context_options);
@@ -85,15 +108,13 @@ class Request
      * 
      * @param string $url             送信するURL
      * @param array  $params          送信するパラメータ。省略すると空配列
-     * @param array  $headers         送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキストオプション。省略するとデフォルト設定で送信を行う
      * @return string サーバからのレスポンステキスト
      */
-    public function get($url, array $params = array(), array $headers = array(), $context_options = array())
+    public function get($url, array $params = array())
     {
         $url .= '?'.http_build_query($params);
 
-        $response = static::send(self::METHOD_GET, $url, $params, $headers, $context_options);
+        $response = $this->send(self::METHOD_GET, $url, $params);
         return $response;
     }
 
@@ -102,19 +123,13 @@ class Request
      * 
      * @param string $url             送信するURL
      * @param array  $params          送信するパラメータ。省略すると空配列
-     * @param array  $headers         送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキストオプション。省略するとデフォルト設定で送信を行う
      * @return string サーバからのレスポンステキスト
      */
-    public function post($url, array $params = array(), array $headers = array(), $context_options = array())
+    public function post($url, array $params = array())
     {
-        $context_options = array_merge_recursive(array(
-            'http' => array(
-                'content' => http_build_query($params),
-            ),
-        ), $context_options);
+        $this->setHttpContextOptions('content', http_build_query($params));
 
-        $response = static::send(self::METHOD_POST, $url, $params, $headers, $context_options);
+        $response = $this->send(self::METHOD_POST, $url, $params);
         return $response;
     }
 
@@ -123,19 +138,13 @@ class Request
      * 
      * @param string $url             送信するURL
      * @param array  $params          送信するパラメータ。省略すると空配列
-     * @param array  $headers         送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキストオプション。省略するとデフォルト設定で送信を行う
      * @return string サーバからのレスポンステキスト
      */
-    public function put($url, array $params = array(), array $headers = array(), $context_options = array())
+    public function put($url, array $params = array())
     {
-        $context_options = array_merge_recursive(array(
-            'http' => array(
-                'content' => http_build_query($params),
-            ),
-        ), $context_options);
+        $this->setHttpContextOptions('content', http_build_query($params));
 
-        $response = static::send(self::METHOD_PUT, $url, $params, $headers, $context_options);
+        $response = $this->send(self::METHOD_PUT, $url, $params);
         return $response;
     }
 
@@ -144,15 +153,13 @@ class Request
      * 
      * @param string $url             送信するURL
      * @param array  $params          送信するパラメータ。省略すると空配列
-     * @param array  $headers         送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキストオプション。省略するとデフォルト設定で送信を行う
      * @return string サーバからのレスポンステキスト
      */
-    public function delete($url, array $params = array(), array $headers = array(), $context_options = array())
+    public function delete($url, array $params = array())
     {
-        $url .= '?'.http_build_query($params);
+        $this->setHttpContextOptions('content', http_build_query($params));
 
-        $response = static::send(self::METHOD_DELETE, $url, $params, $headers, $context_options);
+        $response = $this->send(self::METHOD_DELETE, $url, $params);
         return $response;
     }
 
@@ -161,15 +168,13 @@ class Request
      * 
      * @param string $url             送信するURL
      * @param array  $params          送信するパラメータ。省略すると空配列
-     * @param array  $headers         送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキストオプション。省略するとデフォルト設定で送信を行う
      * @return string サーバからのレスポンステキスト
      */
-    public function patch($url, array $params = array(), array $headers = array(), $context_options = array())
+    public function patch($url, array $params = array())
     {
-        $url .= '?'.http_build_query($params);
+        $this->setHttpContextOptions('content', http_build_query($params));
 
-        $response = static::send(self::METHOD_PATCH, $url, $params, $headers, $context_options);
+        $response = $this->send(self::METHOD_PATCH, $url, $params);
         return $response;
     }
 }
