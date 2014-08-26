@@ -5,7 +5,7 @@
 
 	<testsuites>
 		<testsuite name="all">
-			<directory suffix=".php">Http/Parser</directory>
+			<directory suffix=".php">Http</directory>
 		</testsuite>
 	</testsuites>
 
