@@ -20,6 +20,17 @@ Bolster\
 └── Http.php
 ```
 
+## install
+add your composer.json to
+
+```php
+{
+    "require": {
+        "bolster/http": "0.8"
+    }
+}
+```
+
 ## usage
 
 ### basic
