@@ -5,6 +5,7 @@
 
 	<testsuites>
 		<testsuite name="all">
+			<file>Http.php</file>
 			<directory suffix=".php">Http</directory>
 		</testsuite>
 	</testsuites>
