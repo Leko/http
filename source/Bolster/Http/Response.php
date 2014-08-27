@@ -4,10 +4,6 @@ namespace Bolster\Http;
 
 class Response
 {
-    public $method;
-    public $statusCode;
-    public $contentType;
-
     protected $_parser;
 
     /**
@@ -22,7 +18,7 @@ class Response
             $parser = new Parser\PlainParser();
         }
 
-        $this->_parser = $parser;
+        $this->setParser($parser);
     }
 
     /**
