@@ -25,16 +25,43 @@ class Http
     }
 
     /**
+     * 送信するHTTPヘッダをセットする
+     * 
+     * 既に同じキー名のヘッダが存在する場合は上書きするので注意
+     * 
+     * @param string $key   ヘッダのキー名
+     * @param string $value ヘッダに設定する値
+     * @return void
+     */
+    public function setHeaders($key, $value)
+    {
+        $this->_request->setHeaders($key, $value);
+    }
+
+    /**
+     * 送信時に生成するHTTPストリームコンテキストの設定をセットする
+     * 
+     * 既に同じキー名の設定が存在する場合は上書きするので注意
+     * 
+     * @param string $key   ヘッダのキー名
+     * @param string $value ヘッダに設定する値
+     * @return void
+     */
+    public function setHttpContextOptions($key, $value)
+    {
+        $this->_request->setHttpContextOptions($key, $value);
+    }
+
+    /**
      * メソッドでHTTP通信を行う
      * 
      * @param string $url             送信するURL
      * @param array  $params          送信するパラメータ。省略すると空配列
-     * @param array  $headers         送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキスト。stream_context_createで生成できるコンテキストを指定。省略するとデフォルト設定で送信を行う
+     * @return mixed Http\Response#parseの戻り値
      */
-    public function get($url, array $params = array(), array $headers = array(), $context_options = array())
+    public function get($url, array $params = array())
     {
-        $response_text = $this->_request->get($url, $params, $headers, $context_options);
+        $response_text = $this->_request->get($url, $params);
         $response      = $this->_response->parse($response_text);
 
         return $response;
@@ -45,12 +72,11 @@ class Http
      * 
      * @param string $url             送信するURL
      * @param array  $params          送信するパラメータ。省略すると空配列
-     * @param array  $headers         送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキスト。stream_context_createで生成できるコンテキストを指定。省略するとデフォルト設定で送信を行う
+     * @return mixed Http\Response#parseの戻り値
      */
-    public function post($url, array $params = array(), array $headers = array(), $context_options = array())
+    public function post($url, array $params = array())
     {
-        $response_text = $this->_request->post($url, $params, $headers, $context_options);
+        $response_text = $this->_request->post($url, $params);
         $response      = $this->_response->parse($response_text);
 
         return $response;
@@ -61,12 +87,11 @@ class Http
      * 
      * @param string $url             送信するURL
      * @param array  $params          送信するパラメータ。省略すると空配列
-     * @param array  $headers         送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキスト。stream_context_createで生成できるコンテキストを指定。省略するとデフォルト設定で送信を行う
+     * @return mixed Http\Response#parseの戻り値
      */
-    public function put($url, array $params = array(), array $headers = array(), $context_options = array())
+    public function put($url, array $params = array())
     {
-        $response_text = $this->_request->put($url, $params, $headers, $context_options);
+        $response_text = $this->_request->put($url, $params);
         $response      = $this->_response->parse($response_text);
 
         return $response;
@@ -77,12 +102,11 @@ class Http
      * 
      * @param string $url             送信するURL
      * @param array  $params          送信するパラメータ。省略すると空配列
-     * @param array  $headers         送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキスト。stream_context_createで生成できるコンテキストを指定。省略するとデフォルト設定で送信を行う
+     * @return mixed Http\Response#parseの戻り値
      */
-    public function delete($url, array $params = array(), array $headers = array(), $context_options = array())
+    public function delete($url, array $params = array())
     {
-        $response_text = $this->_request->delete($url, $params, $headers, $context_options);
+        $response_text = $this->_request->delete($url, $params);
         $response      = $this->_response->parse($response_text);
 
         return $response;
@@ -93,12 +117,11 @@ class Http
      * 
      * @param string $url             送信するURL
      * @param array  $params          送信するパラメータ。省略すると空配列
-     * @param array  $headers         送信するHTTPヘッダ。省略すると空配列
-     * @param array  $context_options 送信に使用するコンテキスト。stream_context_createで生成できるコンテキストを指定。省略するとデフォルト設定で送信を行う
+     * @return mixed Http\Response#parseの戻り値
      */
-    public function patch($url, array $params = array(), array $headers = array(), $context_options = array())
+    public function patch($url, array $params = array())
     {
-        $response_text = $this->_request->patch($url, $params, $headers, $context_options);
+        $response_text = $this->_request->patch($url, $params);
         $response      = $this->_response->parse($response_text);
 
         return $response;
