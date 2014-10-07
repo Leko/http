@@ -63,7 +63,6 @@ class Http
     public function request($method, $url, array $params = array())
     {
         $response_text = $this->request->{$method}($url, $params);
-        var_dump($response_text);
         $response      = $this->response->parse($response_text);
 
         return $response;
