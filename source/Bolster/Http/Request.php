@@ -8,19 +8,19 @@ class Request
      * HTTPメソッド：GET
      * @var string
      */
-    const METHOD_GET    = 'GET';
+    const METHOD_GET = 'GET';
 
     /**
      * HTTPメソッド：POST
      * @var string
      */
-    const METHOD_POST   = 'POST';
+    const METHOD_POST = 'POST';
 
     /**
      * HTTPメソッド：PUT
      * @var string
      */
-    const METHOD_PUT    = 'PUT';
+    const METHOD_PUT = 'PUT';
 
     /**
      * HTTPメソッド：DELETE
@@ -32,7 +32,7 @@ class Request
      * HTTPメソッド：PATCH
      * @var string
      */
-    const METHOD_PATCH  = 'PATCH';
+    const METHOD_PATCH = 'PATCH';
 
     // 送信オプションを指定
     // NOTE: http://www.php.net/manual/ja/context.http.php
