@@ -4,7 +4,7 @@ namespace Bolster\Http;
 
 class Response
 {
-    protected $_parser;
+    protected $parser;
 
     /**
      * コンストラクタ
@@ -29,7 +29,7 @@ class Response
      */
     public function setParser(Parser\ParserInterface $parser)
     {
-        $this->_parser = $parser;
+        $this->parser = $parser;
     }
 
     /**
@@ -40,7 +40,7 @@ class Response
      */
     public function parse($response_text)
     {
-        $parsed = $this->_parser->parse($response_text);
+        $parsed = $this->parser->parse($response_text);
         return $parsed;
     }
 }

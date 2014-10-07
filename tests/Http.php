@@ -6,8 +6,8 @@ class Test_Http extends Test_Common
 {
     public function test___constructを呼ぶとrequest_responseのインスタンスを保持している()
     {
-        $request  = $this->getProperty('\Bolster\Http', '_request');
-        $response = $this->getProperty('\Bolster\Http', '_response');
+        $request  = $this->getProperty('\Bolster\Http', 'request');
+        $response = $this->getProperty('\Bolster\Http', 'response');
 
         $http = new \Bolster\Http();
         $this->assertInstanceOf('\Bolster\Http\Request', $request->getValue($http));
