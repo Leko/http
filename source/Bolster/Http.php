@@ -4,13 +4,13 @@ namespace Bolster;
 
 class Http
 {
-    protected $_request;
-    protected $_response;
+    protected $request;
+    protected $response;
 
     public function __construct()
     {
-        $this->_request = new Http\Request();
-        $this->_response = new Http\Response();
+        $this->request = new Http\Request();
+        $this->response = new Http\Response();
     }
 
     /**
@@ -21,7 +21,7 @@ class Http
      */
     public function setParser(Http\Parser\ParserInterface $parser)
     {
-        $this->_response->setParser($parser);
+        $this->response->setParser($parser);
     }
 
     /**
@@ -35,7 +35,7 @@ class Http
      */
     public function setHeaders($key, $value)
     {
-        $this->_request->setHeaders($key, $value);
+        $this->request->setHeaders($key, $value);
     }
 
     /**
@@ -49,7 +49,24 @@ class Http
      */
     public function setHttpContextOptions($key, $value)
     {
-        $this->_request->setHttpContextOptions($key, $value);
+        $this->request->setHttpContextOptions($key, $value);
+    }
+
+    /**
+     * HTTP通信を行う
+     * 
+     * @param string $method          仕様するHTTPメソッド
+     * @param string $url             送信するURL
+     * @param array  $params          送信するパラメータ。省略すると空配列
+     * @return mixed Http\Response#parseの戻り値
+     */
+    public function request($method, $url, array $params = array())
+    {
+        $response_text = $this->request->{$method}($url, $params);
+        var_dump($response_text);
+        $response      = $this->response->parse($response_text);
+
+        return $response;
     }
 
     /**
@@ -61,9 +78,7 @@ class Http
      */
     public function get($url, array $params = array())
     {
-        $response_text = $this->_request->get($url, $params);
-        $response      = $this->_response->parse($response_text);
-
+        $response = $this->request('GET', $url, $params);
         return $response;
     }
 
@@ -76,9 +91,7 @@ class Http
      */
     public function post($url, array $params = array())
     {
-        $response_text = $this->_request->post($url, $params);
-        $response      = $this->_response->parse($response_text);
-
+        $response = $this->request('POST', $url, $params);
         return $response;
     }
 
@@ -91,9 +104,7 @@ class Http
      */
     public function put($url, array $params = array())
     {
-        $response_text = $this->_request->put($url, $params);
-        $response      = $this->_response->parse($response_text);
-
+        $response = $this->request('PUT', $url, $params);
         return $response;
     }
 
@@ -106,9 +117,7 @@ class Http
      */
     public function delete($url, array $params = array())
     {
-        $response_text = $this->_request->delete($url, $params);
-        $response      = $this->_response->parse($response_text);
-
+        $response = $this->request('DELETE', $url, $params);
         return $response;
     }
 
@@ -121,9 +130,7 @@ class Http
      */
     public function patch($url, array $params = array())
     {
-        $response_text = $this->_request->patch($url, $params);
-        $response      = $this->_response->parse($response_text);
-
+        $response = $this->request('PATCH', $url, $params);
         return $response;
     }
 }

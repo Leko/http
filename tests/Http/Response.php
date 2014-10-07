@@ -6,7 +6,7 @@ class Test_Http_Response extends Test_Common
 {
     function test_construct_パーサを省略するとPlainParserのインスタンスがセットされる()
     {
-        $parser = $this->getProperty('Bolster\Http\Response', '_parser');
+        $parser = $this->getProperty('Bolster\Http\Response', 'parser');
         $this->assertInstanceOf('Bolster\Http\Parser\PlainParser', $parser->getValue(new Bolster\Http\Response()));
     }
 
@@ -15,7 +15,7 @@ class Test_Http_Response extends Test_Common
         $response = new Bolster\Http\Response();
         $response->setParser(new Bolster\Http\Parser\JsonParser());
 
-        $parser = $this->getProperty('Bolster\Http\Response', '_parser');
+        $parser = $this->getProperty('Bolster\Http\Response', 'parser');
         $this->assertInstanceOf('Bolster\Http\Parser\JsonParser', $parser->getValue($response));        
     }
 

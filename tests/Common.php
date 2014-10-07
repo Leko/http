@@ -1,6 +1,11 @@
 <?php
 
-require_once __DIR__.'/Autoloader.php';
+require_once __DIR__.'/../source/Bolster/Http/Request.php';
+require_once __DIR__.'/../source/Bolster/Http/Response.php';
+require_once __DIR__.'/../source/Bolster/Http.php';
+require_once __DIR__.'/../source/Bolster/Http/Parser/ParserInterface.php';
+require_once __DIR__.'/../source/Bolster/Http/Parser/PlainParser.php';
+require_once __DIR__.'/../source/Bolster/Http/Parser/JsonParser.php';
 
 define('MOCK_SERVER_PORT', 9876);
 

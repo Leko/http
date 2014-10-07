@@ -8,19 +8,19 @@ class Request
      * HTTPメソッド：GET
      * @var string
      */
-    const METHOD_GET    = 'GET';
+    const METHOD_GET = 'GET';
 
     /**
      * HTTPメソッド：POST
      * @var string
      */
-    const METHOD_POST   = 'POST';
+    const METHOD_POST = 'POST';
 
     /**
      * HTTPメソッド：PUT
      * @var string
      */
-    const METHOD_PUT    = 'PUT';
+    const METHOD_PUT = 'PUT';
 
     /**
      * HTTPメソッド：DELETE
@@ -32,17 +32,17 @@ class Request
      * HTTPメソッド：PATCH
      * @var string
      */
-    const METHOD_PATCH  = 'PATCH';
+    const METHOD_PATCH = 'PATCH';
 
     // 送信オプションを指定
     // NOTE: http://www.php.net/manual/ja/context.http.php
-    protected $_options = array(
+    protected $options = array(
         'http' => array(
             'ignore_errors' => true,    // レスポンスコードが40x系でもレスポンスを取得する
         )
     );
 
-    protected $_headers = array(
+    protected $headers = array(
         'Content-Type' => 'application/x-www-form-urlencoded',
     );
 
@@ -57,7 +57,7 @@ class Request
      */
     public function setHeaders($key, $value)
     {
-        $this->_headers[$key] = $value;
+        $this->headers[$key] = $value;
     }
 
     /**
@@ -71,7 +71,7 @@ class Request
      */
     public function setHttpContextOptions($key, $value)
     {
-        $this->_options['http'][$key] = $value;
+        $this->options['http'][$key] = $value;
     }
 
     /**
@@ -85,7 +85,7 @@ class Request
     {
         // key => value形式のヘッダからkey: value形式の文字列の配列へ変換
         $header = array();
-        foreach ($this->_headers as $key => $value) {
+        foreach ($this->headers as $key => $value) {
             $header[] = "{$key}: {$value}";
         }
 
@@ -94,7 +94,7 @@ class Request
                 'method' => $method,
                 'header' => implode("\r\n", $header),
             ),
-        ), $this->_options);
+        ), $this->options);
 
         // コンテキストを生成し送信
         $context       = stream_context_create($context_options);
